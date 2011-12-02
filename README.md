@@ -1,23 +1,27 @@
 
 # miller_rabin
 
-Test Miller-Rabin test for is a probabilistic test for primality of
-numbers. It is the alogorithm used in Mathematica.
+An Erlang module implementing the Miller-Rabin test. This test is a
+probabilistic test for primality of numbers. It is the alogorithm used
+in Mathematica.
 
-It exports two functions that can be used to check for primality:
+The module exports two functions that can be used to check for
+primality:
 
-  is_probable_prime(N)
+    is_probable_prime(N)
 
 This function uses the original, undeterministic version of the
 algorithm. That means it can yield true for a number that is
-composite, but this is very rare.
+composite, but this is very rare. (This function tests against K = 20
+random bases A.)
 
-  is_prime(N)
+    is_prime(N)
 
-This function uses the deterministic variant of the algorithm. It
-reliable for number N < 341,550,071,728,321. This version uses not
-random sets of bases, like the original version. Instead it uses sets
-which have been shown to not yield false positives.
+This function uses the deterministic variant of the algorithm. It is
+reliable for numbers N < 341,550,071,728,321. This version uses not
+random sets of bases, like the original version, which could yield
+false positives. Instead it uses sets which have been shown to not
+yield false positives.
 
 # Links
 
