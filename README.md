@@ -28,6 +28,27 @@ false positives. Instead it uses sets which have been shown to not
 yield false positives for the intervals in which the function is
 defined.
 
+# Example Usage
+
+This example prints all primes up to 1000.
+
+  -module(example).
+
+  -import(miller_rabin, [is_prime/1]).
+
+  -compile([export_all]).
+
+  primes_below_1000() ->
+      L = lists:seq(1, 1000),
+      lists:map(fun(X) ->
+                        case is_prime(X) of
+                            true  -> io:format("~w~n", [X]);
+                            false -> false
+                        end
+                end,
+                L),
+      ok.
+
 # Links
 
 * http://en.wikipedia.org/wiki/Miller-Rabin_primality_tes
