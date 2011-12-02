@@ -5,7 +5,7 @@
 %%
 -module(miller_rabin).
 
--export([is_prime/1, is_probable_prime/1, below_1000/0, pow_mod/3]).
+-export([is_prime/1, is_probable_prime/1, pow_mod/3]).
 
 basis(N) when N>2 ->
     1 + random:uniform(N-2).
