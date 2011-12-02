@@ -5,42 +5,53 @@
 %%
 -module(miller_rabin).
 
--export([is_prime/1, is_probable_prime/1, first_1000/0]).
+-export([is_prime/1, is_probable_prime/1, below_1000/0, pow_mod/3]).
 
 basis(N) when N>2 ->
     1 + random:uniform(N-2).
 
 find_ds(D, S) when D rem 2 == 0 ->
-    find_ds(trunc(D/2), S+1);
+    find_ds(D div 2, S+1);
 find_ds(D, S) ->
     {D, S}.
 
 find_ds(N) ->
     find_ds(N-1, 0).
 
-pow_mod(B, E, M) ->
+pow_mod(B, E, M) when is_integer(B),
+                      is_integer(E),
+                      is_integer(M) ->
     case E of
         0 -> 1;
-        _ -> case trunc(E) rem 2 == 0 of
-                 true  -> trunc(math:pow(pow_mod(B, trunc(E/2), M), 2)) rem M;
-                 false -> trunc(B*pow_mod(B, E-1, M)) rem M
-             end
+        E when E rem 2 == 0 ->
+            trunc(math:pow(pow_mod(B, E div 2, M), 2)) rem M;
+        _Else ->
+            trunc(B*pow_mod(B, E-1, M)) rem M
     end.
 
 mr_sequence(N, A, D, S) when N rem 2 == 1 ->
     Js = lists:seq(0, S),
-    lists:map(fun(J) -> pow_mod(A, math:pow(2, J)*D, N) end, Js).
+    lists:map(fun(J) ->
+                      case pow_mod(A, trunc(math:pow(2, J)*D), N) of
+                          X when X == N-1 -> -1;
+                          X -> X
+                      end
+              end,
+              Js).
+
+is_composite_sequence(Xs) ->
+    case Xs of
+        [1|_] -> false;
+        L     -> not lists:member(-1, L)
+    end.
 
 is_mr_prime(N, As) when N>2, N rem 2 == 1 ->
     {D, S} = find_ds(N),
-    not lists:any(fun(A) ->
-                          case mr_sequence(N, A, D, S) of
-                              [1|_] -> false;
-                              L     -> not lists:member(N-1, L)
-                          end
-                  end,
-                  As).
+    Ss = lists:map(fun(A) -> mr_sequence(N, A, D, S) end, As),
+    not lists:any(fun(Seq) -> is_composite_sequence(Seq) end, Ss).
 
+proving_bases(N) when N == 3 ->
+    [2];
 proving_bases(N) when N < 1373653 ->
     [2, 3];
 proving_bases(N) when N < 25326001 ->
@@ -68,16 +79,3 @@ is_probable_prime(N, K) ->
 
 is_probable_prime(N) ->
     is_probable_prime(N, 20).
-
-first_1000() ->
-    L = lists:seq(1,1000),
-    lists:map(fun(X) ->
-                      case is_prime(X) of
-                          true ->
-                              io:format("~w~n", [X]);
-                          false ->
-                              false
-                      end
-              end,
-              L),
-    ok.
