@@ -49,7 +49,7 @@ proving_bases(N) when N < 25000000000 ->
     [2, 3, 5, 7];
 proving_bases(N) when N < 2152302898747->
     [2, 3, 5, 7, 11];
-proving_bases(N) when N < 341550071728321 ->
+proving_bases(N) when N < 3474749660383 ->
     [2, 3, 5, 7, 11, 13];
 proving_bases(N) when N < 341550071728321 ->
     [2, 3, 5, 7, 11, 13, 17].
