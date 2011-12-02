@@ -32,22 +32,24 @@ defined.
 
 This example prints all primes up to 1000.
 
-    -module(example).
+```erlang
+-module(example).
 
-    -import(miller_rabin, [is_prime/1]).
+-import(miller_rabin, [is_prime/1]).
 
-    -compile([export_all]).
+-compile([export_all]).
 
-    primes_below_1000() ->
-        L = lists:seq(1, 1000),
-        lists:map(fun(X) ->
-                          case is_prime(X) of
-                              true  -> io:format("~w~n", [X]);
-                              false -> false
-                          end
-                  end,
-                  L),
-        ok.
+primes_below_1000() ->
+    L = lists:seq(1, 1000),
+    lists:map(fun(X) ->
+                      case is_prime(X) of
+                          true  -> io:format("~w~n", [X]);
+                          false -> false
+                      end
+              end,
+              L),
+    ok.
+```
 
 # Links
 
