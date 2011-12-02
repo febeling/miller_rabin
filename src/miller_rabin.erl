@@ -63,8 +63,11 @@ is_prime(N) when N rem 2 == 0 -> false;
 is_prime(N) when N < 341550071728321 ->
     is_mr_prime(N, proving_bases(N)).
 
+is_probable_prime(N, K) ->
+    is_mr_prime(N, random_bases(N, K)).
+
 is_probable_prime(N) ->
-    is_mr_prime(N, random_bases(N, 20)).
+    is_probable_prime(N, 20).
 
 first_1000() ->
     L = lists:seq(1,1000),
