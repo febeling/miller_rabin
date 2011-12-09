@@ -53,9 +53,9 @@ primes_below_1000() ->
 
 # Links
 
-* http://en.wikipedia.org/wiki/Miller-Rabin_primality_tes
+* http://en.wikipedia.org/wiki/Miller-Rabin_primality_test
 * http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html
 
 # License
 
-MIT.
+MIT. See MIT-LICENSE file.
